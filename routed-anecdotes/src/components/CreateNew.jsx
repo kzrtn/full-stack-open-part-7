@@ -11,12 +11,18 @@ const CreateNew = ({ addNew }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.data.value,
+      author: author.data.value,
+      info: info.data.value,
       votes: 0
     })
     navigate("/")
+  }
+
+  const resetFields = () => {
+    content.reset()
+    author.reset()
+    info.reset()
   }
 
   return (
@@ -27,24 +33,25 @@ const CreateNew = ({ addNew }) => {
           content
           <input
             name="content"
-            { ...content }
+            { ...content.data }
           />
         </div>
         <div>
           author
           <input
             name="author"
-            { ...author }
+            { ...author.data }
           />
         </div>
         <div>
           url for more info
           <input
             name="info"
-            { ...info }
+            { ...info.data }
           />
         </div>
         <button>create</button>
+        <button type="button" onClick={resetFields}>reset</button>
       </form>
     </div>
   )
