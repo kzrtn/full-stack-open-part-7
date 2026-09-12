@@ -4,7 +4,7 @@ const getAll = async () => {
   const response = await fetch(baseUrl)
 
   if (!response.ok) {
-    throw new Error('Failed to fetch notes')
+    throw new Error('Failed to fetch anecdote')
   }
 
   return await response.json()
@@ -18,10 +18,21 @@ const createNew = async (object) => {
   })
   
   if (!response.ok) {
-    throw new Error('Failed to create note')
+    throw new Error('Failed to create anecdote')
   }
   
   return await response.json()
 }
 
-export default { getAll, createNew }
+const remove = async (anecdoteId) => {
+  const response = await fetch(`${baseUrl}/${anecdoteId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete anecdote')
+  }
+}
+
+export default { getAll, createNew, remove }
