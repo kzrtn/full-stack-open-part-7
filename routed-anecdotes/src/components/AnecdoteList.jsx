@@ -1,5 +1,9 @@
-const AnecdoteList = ({ anecdotes, deleteAnecdote }) => {
+import { useAnecdotes } from '../hooks'
+
+const AnecdoteList = () => {
+  const { anecdotes, deleteAnecdote } = useAnecdotes()
   const handleDelete = anecdoteId => deleteAnecdote(anecdoteId)
+
   return (
     <div>
       <h2>Anecdotes</h2>
