@@ -1,0 +1,14 @@
+GET http://127.0.0.1:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjZhODJiNmI3ZDYyMzFlZmI4ZWZjY2UzNCIsImlhdCI6MTc4NzAzODgzNX0.sFnVChARKqbvoUoECIJwxVpX6GnJ6X9ADSd8bbmmMKc'
+
+{
+  "title": "Test title",
+  "author": "Me",
+  "url": "whatisthisurl",
+  "likes": 23,
+  "user": "6a82b6b7d6231efb8efcce34"
+}
