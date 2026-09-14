@@ -21,6 +21,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import ErrorBoundary from './components/ErrorBoundary'
 
 /*
 const IS_ERROR = true
@@ -151,36 +152,38 @@ const App = () => {
         </Toolbar>
       </AppBar>
       {toast.message && (<Notification toast={toast} />)}
-      <Routes>
-        <Route path = "/blog/:id" element={
-          <Blog
-            blog={blog}
-            user={user}
-            updateService={updateBlog}
-            deleteService={deleteBlog}
-          />
-        } />
+      <ErrorBoundary>
+        <Routes>
+          <Route path = "/blog/:id" element={
+            <Blog
+              blog={blog}
+              user={user}
+              updateService={updateBlog}
+              deleteService={deleteBlog}
+            />
+          } />
 
-        <Route path="/" element={
-          <BlogList
-            blogs={blogs}
-            setBlogs={setBlogs}
-            toast={toast}
-          />
-        } />
+          <Route path="/" element={
+            <BlogList
+              blogs={blogs}
+              setBlogs={setBlogs}
+              toast={toast}
+            />
+          } />
 
-        <Route path="/login" element={
-          <LoginForm
-            loginService={handleLogin}
-          />
-        } />
+          <Route path="/login" element={
+            <LoginForm
+              loginService={handleLogin}
+            />
+          } />
 
-        <Route path="/create" element={
-          <BlogForm
-            blogService={submitNewBlog}
-          />
-        } />
-      </Routes>
+          <Route path="/create" element={
+            <BlogForm
+              blogService={submitNewBlog}
+            />
+          } />
+        </Routes>
+      </ErrorBoundary>
     </Container>
   )
 }
