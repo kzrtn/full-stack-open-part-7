@@ -1,9 +1,9 @@
-import { Alert } from '@mui/material'
-import styled from 'styled-components'
+import { Alert } from "@mui/material";
+import styled from "styled-components";
 
 const StyledAlert = styled(Alert)`
   margin-top: 1rem;
-`
+`;
 
 const Notification = ({ toast }) => {
   /*
@@ -31,11 +31,7 @@ const Notification = ({ toast }) => {
   )
   */
 
-  return(
-    <StyledAlert severity={toast.type}>
-      {toast.message}
-    </StyledAlert>
-  )
-}
+  return <StyledAlert severity={toast.type}>{toast.message}</StyledAlert>;
+};
 
-export default Notification
+export default Notification;

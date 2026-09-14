@@ -1,75 +1,79 @@
-const dummy = blogs => {
-  return 1
-}
+const dummy = (blogs) => {
+  return 1;
+};
 
-const totalLikes = blogPosts => {
-  return blogPosts.reduce((sum, post) => sum + post.likes, 0)
-}
+const totalLikes = (blogPosts) => {
+  return blogPosts.reduce((sum, post) => sum + post.likes, 0);
+};
 
-const favoriteBlog = blogPosts => {
-  let winnerBlog = {}
+const favoriteBlog = (blogPosts) => {
+  let winnerBlog = {};
 
-  blogPosts.forEach(blogPost => {
+  blogPosts.forEach((blogPost) => {
     if (blogPost?.likes > (winnerBlog?.likes || 0)) {
-      winnerBlog = blogPost
+      winnerBlog = blogPost;
     }
-  })
+  });
 
-  return winnerBlog
-}
+  return winnerBlog;
+};
 
-const mostBlogs = blogPosts => {
-  let blogAuthors = []
+const mostBlogs = (blogPosts) => {
+  let blogAuthors = [];
 
-  blogPosts.forEach(blogPost => {
-    const findIndex = blogAuthors.findIndex(blogAuthor => blogAuthor.author === blogPost.author)
+  blogPosts.forEach((blogPost) => {
+    const findIndex = blogAuthors.findIndex(
+      (blogAuthor) => blogAuthor.author === blogPost.author,
+    );
 
     if (findIndex === -1) {
       blogAuthors.push({
         author: blogPost.author,
-        blogs: 1
-      })
+        blogs: 1,
+      });
     } else {
-      blogAuthors[findIndex].blogs++
+      blogAuthors[findIndex].blogs++;
     }
-  })
+  });
 
-  let winnerBlog = {}
-  blogAuthors.forEach(blogAuthor => {
+  let winnerBlog = {};
+  blogAuthors.forEach((blogAuthor) => {
     if (blogAuthor.blogs > (winnerBlog?.blogs || 0)) {
-      winnerBlog = blogAuthor
+      winnerBlog = blogAuthor;
     }
-  })
+  });
 
-  return winnerBlog || {}
-}
+  return winnerBlog || {};
+};
 
-const mostLikes = blogPosts => {
-  let blogAuthors = []
+const mostLikes = (blogPosts) => {
+  let blogAuthors = [];
 
-  blogPosts.forEach(blogPost => {
-    const findIndex = blogAuthors.findIndex(blogAuthor => blogAuthor.author === blogPost.author)
+  blogPosts.forEach((blogPost) => {
+    const findIndex = blogAuthors.findIndex(
+      (blogAuthor) => blogAuthor.author === blogPost.author,
+    );
     //console.log(findIndex)
 
     if (findIndex === -1) {
       blogAuthors.push({
         author: blogPost.author,
-        likes: blogPost.likes
-      })
+        likes: blogPost.likes,
+      });
     } else {
-      blogAuthors[findIndex].likes += blogPost.likes
+      blogAuthors[findIndex].likes += blogPost.likes;
     }
-  })
+  });
 
-  let winnerBlog = {}
-  blogAuthors.forEach(blogAuthor => {
+  let winnerBlog = {};
+  blogAuthors.forEach((blogAuthor) => {
     if (blogAuthor.likes > (winnerBlog?.likes || 0)) {
-      winnerBlog = blogAuthor
+      winnerBlog = blogAuthor;
     }
-  })
+  });
 
-  return winnerBlog || {}
-}
+  return winnerBlog || {};
+};
 
 // Finds the author with the highest total (or count) of a given attribute
 // across all their blog posts.
@@ -81,30 +85,32 @@ const mostLikes = blogPosts => {
 //
 // Returns the winning author's aggregated object: { author, [attribute]: total }
 // Returns {} if blogPosts is empty.
-const FindMostOf = (blogPosts, attribute, countMode) => { 
-  let blogAuthors = []
+const FindMostOf = (blogPosts, attribute, countMode) => {
+  let blogAuthors = [];
 
-  blogPosts.forEach(blogPost => {
-    const findIndex = blogAuthors.findIndex(blogAuthor => blogAuthor.author === blogPost.author)
+  blogPosts.forEach((blogPost) => {
+    const findIndex = blogAuthors.findIndex(
+      (blogAuthor) => blogAuthor.author === blogPost.author,
+    );
 
     if (findIndex === -1) {
       blogAuthors.push({
         author: blogPost.author,
-        [attribute]: countMode ? 1 : blogPost[attribute]
-      })
+        [attribute]: countMode ? 1 : blogPost[attribute],
+      });
     } else {
-      blogAuthors[findIndex][attribute] += countMode ? 1 : blogPost[attribute]
+      blogAuthors[findIndex][attribute] += countMode ? 1 : blogPost[attribute];
     }
-  })
+  });
 
-  let winnerBlog = {}
-  blogAuthors.forEach(blogAuthor => {
+  let winnerBlog = {};
+  blogAuthors.forEach((blogAuthor) => {
     if (blogAuthor[attribute] > (winnerBlog[attribute] || 0)) {
-      winnerBlog = blogAuthor
+      winnerBlog = blogAuthor;
     }
-  })
+  });
 
-  return winnerBlog
-}
+  return winnerBlog;
+};
 
-module.exports = { dummy, totalLikes, favoriteBlog, FindMostOf }
+module.exports = { dummy, totalLikes, favoriteBlog, FindMostOf };
