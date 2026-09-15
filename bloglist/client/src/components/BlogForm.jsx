@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
+import { useBlogActions } from "../store";
 
-const BlogForm = ({ blogService }) => {
+const BlogForm = () => {
+  const { add } = useBlogActions();
+
   const [blogFields, setBlogFields] = useState({
     title: "",
     author: "",
@@ -12,7 +15,7 @@ const BlogForm = ({ blogService }) => {
 
   const submitNewBlog = (e) => {
     e.preventDefault();
-    blogService(blogFields);
+    add(blogFields);
     setBlogFields({
       title: "",
       author: "",

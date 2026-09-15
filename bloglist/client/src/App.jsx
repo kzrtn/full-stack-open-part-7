@@ -59,6 +59,7 @@ const App = () => {
     }
   };
 
+  /*
   const submitNewBlog = async (blogFields) => {
     try {
       const res = await blogService.create(blogFields);
@@ -71,6 +72,7 @@ const App = () => {
       showNotification("error", `Failed to submit blog post. Error: ${error}`);
     }
   };
+  */
 
   const logout = () => {
     setUser(null);
@@ -163,7 +165,7 @@ const App = () => {
 
           <Route
             path="/create"
-            element={<BlogForm blogService={submitNewBlog} />}
+            element={<BlogForm />}
           />
 
           <Route path="*" element={<h2>404 - Page not found</h2>} />

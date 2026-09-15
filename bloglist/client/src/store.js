@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import blogService from "./services/blogs";
-import blogs from './services/blogs';
 
 const useNotificationStore = create(set => ({
   notification: {
@@ -19,6 +18,18 @@ const useBlogStore = create((set, get) => ({
     init: async () => {
       const blogslist = await blogService.getAll()
       set({ blogs: blogslist.toSorted((a, b) => b.likes - a.likes) })
+    },
+    add: async (blogFields) => {
+      try {
+        const res = await blogService.create(blogFields);
+        set(state => ({ blogs: state.blogs.concat(res) }))
+        useNotificationStore.getState().setNotification(
+          "success",
+          `Added new blog titled "${blogFields.title}" By "${blogFields.author}"`,
+        );
+      } catch (error) {
+        useNotificationStore.getState().setNotification("error", `Failed to submit blog post. Error: ${error}`);
+      }
     }
   }
 }))
