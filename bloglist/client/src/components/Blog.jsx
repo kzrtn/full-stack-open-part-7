@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography } from "@mui/material";
+import { useBlogActions } from "../store";
 
 const Blog = (props) => {
+  const { like, remove } = useBlogActions();
+  
   const [blog, setBlog] = useState(props.blog);
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ const Blog = (props) => {
       `Remove blog ${blog.title} by ${blog.author}?`,
     );
     if (confirmDelete) {
-      props.deleteService(blog);
+      remove(blog);
       navigate("/");
     }
   };
@@ -57,7 +60,7 @@ const Blog = (props) => {
         likes: blog.likes + 1,
       };
       setBlog(updatedBlog);
-      props.updateService(updatedBlog);
+      like(updatedBlog);
     };
     return (
       <Button

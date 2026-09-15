@@ -30,6 +30,35 @@ const useBlogStore = create((set, get) => ({
       } catch (error) {
         useNotificationStore.getState().setNotification("error", `Failed to submit blog post. Error: ${error}`);
       }
+    },
+    like: async (updatedBlog) => {
+      try {
+        const res = await blogService.addLike(updatedBlog);
+        set(state => ({
+          blogs: state.blogs.map((blog) => (blog.id === res.id ? res : blog))
+        }))
+
+        useNotificationStore.getState().setNotification(
+          "success",
+          `Liked "${updatedBlog.title}" By "${updatedBlog.author}"`,
+        );
+      } catch (error) {
+        useNotificationStore.getState().setNotification("error", `Failed to like blog post. Error: ${error}`);
+      }
+    },
+    remove: async (blogToDelete) => {
+      try {
+        await blogService.deleteBlog(blogToDelete);
+        set(state => ({
+          blogs: state.blogs.filter((blog) => blog.id !== blogToDelete.id)
+        }));
+        useNotificationStore.getState().setNotification(
+          "success",
+          `Deleted "${blogToDelete.title}" By "${blogToDelete.author}"`,
+        );
+      } catch (error) {
+        useNotificationStore.getState().setNotification("error", `Failed to delete blog post. Error: ${error}`);
+      }
     }
   }
 }))

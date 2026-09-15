@@ -59,52 +59,11 @@ const App = () => {
     }
   };
 
-  /*
-  const submitNewBlog = async (blogFields) => {
-    try {
-      const res = await blogService.create(blogFields);
-      setBlogs(blogs.concat(res));
-      showNotification(
-        "success",
-        `Added new blog titled "${blogFields.title}" By "${blogFields.author}"`,
-      );
-    } catch (error) {
-      showNotification("error", `Failed to submit blog post. Error: ${error}`);
-    }
-  };
-  */
-
   const logout = () => {
     setUser(null);
     blogService.setToken(null);
     window.localStorage.removeItem("BlogAppUser");
     showNotification("success", "Successfully logged out.");
-  };
-
-  const updateBlog = async (updatedBlog) => {
-    try {
-      const res = await blogService.addLike(updatedBlog);
-      setBlogs(blogs.map((blog) => (blog.id === res.id ? res : blog)));
-      showNotification(
-        "success",
-        `Liked "${updatedBlog.title}" By "${updatedBlog.author}"`,
-      );
-    } catch (error) {
-      showNotification("error", `Failed to like blog post. Error: ${error}`);
-    }
-  };
-
-  const deleteBlog = async (blogToDelete) => {
-    try {
-      await blogService.deleteBlog(blogToDelete);
-      setBlogs(blogs.filter((blog) => blog.id !== blogToDelete.id));
-      showNotification(
-        "success",
-        `Deleted "${blogToDelete.title}" By "${blogToDelete.author}"`,
-      );
-    } catch (error) {
-      showNotification("error", `Failed to delete blog post. Error: ${error}`);
-    }
   };
 
   const match = useMatch("/blog/:id");
@@ -145,8 +104,6 @@ const App = () => {
               <Blog
                 blog={blog}
                 user={user}
-                updateService={updateBlog}
-                deleteService={deleteBlog}
               />
             }
           />
