@@ -53,6 +53,9 @@ const App = () => {
           <Button color="inherit">
             <StyledLink to="/">blogs</StyledLink>
           </Button>
+          <Button color="inherit">
+            <StyledLink to="/users">users</StyledLink>
+          </Button>
           {!user && (
             <Button color="inherit">
               <StyledLink to="/login">login</StyledLink>
