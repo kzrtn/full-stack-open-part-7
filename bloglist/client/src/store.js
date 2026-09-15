@@ -12,7 +12,7 @@ const useNotificationStore = create(set => ({
   }
 }))
 
-const useBlogStore = create((set, get) => ({
+const useBlogStore = create(set => ({
   blogs: [],
   actions: {
     init: async () => {
@@ -63,7 +63,25 @@ const useBlogStore = create((set, get) => ({
   }
 }))
 
+const useUserStore = create((set, get) => ({
+  user: null,
+  actions: {
+    init: async () => {
+      const loggedUserJSON = window.localStorage.getItem("BlogAppUser");
+      if (loggedUserJSON) {
+        const userObj = JSON.parse(loggedUserJSON);
+        await blogService.setToken(userObj.token);
+        set({ user: userObj })
+      }
+    }
+  }
+}))
+
+
+
 export const useNotification = () => useNotificationStore(state => state.notification)
 export const useNotificationAction = () => useNotificationStore(state => state.setNotification)
 export const useBlog = () => useBlogStore(state => state.blogs)
 export const useBlogActions = () => useBlogStore(state => state.actions)
+export const useUserActions = () => useUserStore(state => state.actions)
+export const useUser = () => useUserStore(state => state.user)

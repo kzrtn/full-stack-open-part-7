@@ -20,7 +20,7 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-import { useNotification, useNotificationAction, useBlog, useBlogActions } from "./store";
+import { useNotification, useNotificationAction, useBlog, useBlogActions, useUser, useUserActions } from "./store";
 
 /*
 const IS_ERROR = true
@@ -32,20 +32,17 @@ const App = () => {
   const setBlogs = useBlogActions()
   const toast = useNotification();
   const showNotification = useNotificationAction();
-  const [user, setUser] = useState(null);
+  //const [user, setUser] = useState(null);
+  const user = useUser();
+  const setUser = useUserActions();
 
   useEffect(() => {
     setBlogs.init();
   }, [setBlogs.init])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("BlogAppUser");
-    if (loggedUserJSON) {
-      const userObj = JSON.parse(loggedUserJSON);
-      blogService.setToken(userObj.token);
-      setUser(userObj);
-    }
-  }, []);
+    setUser.init();
+  }, [setUser.init()]);
 
   const handleLogin = async (userObj) => {
     try {
