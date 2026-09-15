@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, Link, useMatch } from "react-router-dom";
 import { Container, AppBar, Button, Toolbar, Typography } from "@mui/material";
 import styled from "styled-components";
@@ -18,11 +18,6 @@ import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 import { useNotification, useBlog, useBlogActions, useUser, useUserActions } from "./store";
-
-/*
-const IS_ERROR = true
-const NOT_ERROR = false
-*/
 
 const App = () => {
   const blogs = useBlog()
@@ -97,7 +92,10 @@ const App = () => {
             element={<BlogForm />}
           />
 
-          <Route path="*" element={<h2>404 - Page not found</h2>} />
+          <Route
+            path="*"
+            element={<h2>404 - Page not found</h2>}
+          />
         </Routes>
       </ErrorBoundary>
     </Container>

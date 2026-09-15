@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import localStorageUser from './services/persistentUser';
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -69,7 +70,7 @@ const useUserStore = create((set, get) => ({
   user: null,
   actions: {
     init: () => {
-      const loggedUserJSON = window.localStorage.getItem("BlogAppUser");
+      const loggedUserJSON = localStorageUser.get()
       if (loggedUserJSON) {
         const userObj = JSON.parse(loggedUserJSON);
         blogService.setToken(userObj.token);
@@ -81,7 +82,7 @@ const useUserStore = create((set, get) => ({
         const user = await loginService.login(userObj);
         set({ user })
         blogService.setToken(user.token);
-        window.localStorage.setItem("BlogAppUser", JSON.stringify(user));
+        localStorageUser.save(user)
         useNotificationStore.getState().setNotification("success", `${user.name} successfully logged in.`);
       } catch (error) {
         useNotificationStore.getState().setNotification("error", `Invalid credentials. Error: ${error}`);
@@ -90,7 +91,7 @@ const useUserStore = create((set, get) => ({
     logout: () => {
       set({ user: null });
       blogService.setToken(null);
-      window.localStorage.removeItem("BlogAppUser");
+      localStorageUser.clear()
       useNotificationStore.getState().setNotification("success", "Successfully logged out.");
     }
   }
