@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { useBlogActions } from "../store";
+import { useUser } from "../store";
 
 const Blog = (props) => {
+  const user = useUser()
   const { like, remove } = useBlogActions();
   
   const [blog, setBlog] = useState(props.blog);
@@ -36,7 +38,7 @@ const Blog = (props) => {
   const removeButton = () => {
     return (
       <>
-        {blog.user.id === props.user.id ? (
+        {blog.user.id === user.id ? (
           <Button
             size="small"
             variant="outlined"
@@ -93,8 +95,8 @@ const Blog = (props) => {
           <Typography variant="body1" component="span">
             {blog.likes} likes
           </Typography>
-          {props.user && addLikeButton()}
-          {props.user && removeButton()}
+          {user && addLikeButton()}
+          {user && removeButton()}
         </CardContent>
       </Card>
     </div>

@@ -10,9 +10,6 @@ const StyledLink = styled(Link)`
 
 import CssBaseLine from "@mui/material/CssBaseline";
 
-import blogService from "./services/blogs";
-import loginService from "./services/login";
-
 import Blog from "./components/Blog";
 import BlogForm from "./components/BlogForm";
 import BlogList from "./components/BlogList";
@@ -20,7 +17,7 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-import { useNotification, useNotificationAction, useBlog, useBlogActions, useUser, useUserActions } from "./store";
+import { useNotification, useBlog, useBlogActions, useUser, useUserActions } from "./store";
 
 /*
 const IS_ERROR = true
@@ -31,8 +28,6 @@ const App = () => {
   const blogs = useBlog()
   const setBlogs = useBlogActions()
   const toast = useNotification();
-  const showNotification = useNotificationAction();
-  //const [user, setUser] = useState(null);
   const user = useUser();
   const setUser = useUserActions();
 
@@ -43,25 +38,6 @@ const App = () => {
   useEffect(() => {
     setUser.init();
   }, [setUser.init]);
-
-  const handleLogin = async (userObj) => {
-    try {
-      const user = await loginService.login(userObj);
-      setUser(user);
-      blogService.setToken(user.token);
-      window.localStorage.setItem("BlogAppUser", JSON.stringify(user));
-      showNotification("success", `${user.name} successfully logged in.`);
-    } catch (error) {
-      showNotification("error", `Invalid credentials. Error: ${error}`);
-    }
-  };
-
-  const logout = () => {
-    setUser(null);
-    blogService.setToken(null);
-    window.localStorage.removeItem("BlogAppUser");
-    showNotification("success", "Successfully logged out.");
-  };
 
   const match = useMatch("/blog/:id");
   const blog = match ? blogs.find((b) => b.id === match.params.id) : null;
@@ -86,7 +62,7 @@ const App = () => {
             </Button>
           )}
           {user && (
-            <Button color="inherit" onClick={logout}>
+            <Button color="inherit" onClick={setUser.logout}>
               logout
             </Button>
           )}
@@ -100,7 +76,6 @@ const App = () => {
             element={
               <Blog
                 blog={blog}
-                user={user}
               />
             }
           />
@@ -108,13 +83,13 @@ const App = () => {
           <Route
             path="/"
             element={
-              <BlogList blogs={blogs} setBlogs={setBlogs} toast={toast} />
+              <BlogList />
             }
           />
 
           <Route
             path="/login"
-            element={<LoginForm loginService={handleLogin} />}
+            element={<LoginForm />}
           />
 
           <Route

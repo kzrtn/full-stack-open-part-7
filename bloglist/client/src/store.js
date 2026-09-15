@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import blogService from "./services/blogs";
+import loginService from "./services/login";
 
 const useNotificationStore = create(set => ({
   notification: {
@@ -63,21 +64,37 @@ const useBlogStore = create(set => ({
   }
 }))
 
+
 const useUserStore = create((set, get) => ({
   user: null,
   actions: {
-    init: async () => {
+    init: () => {
       const loggedUserJSON = window.localStorage.getItem("BlogAppUser");
       if (loggedUserJSON) {
         const userObj = JSON.parse(loggedUserJSON);
-        await blogService.setToken(userObj.token);
+        blogService.setToken(userObj.token);
         set({ user: userObj })
       }
+    },
+    login: async (userObj) => {
+      try {
+        const user = await loginService.login(userObj);
+        set({ user })
+        blogService.setToken(user.token);
+        window.localStorage.setItem("BlogAppUser", JSON.stringify(user));
+        useNotificationStore.getState().setNotification("success", `${user.name} successfully logged in.`);
+      } catch (error) {
+        useNotificationStore.getState().setNotification("error", `Invalid credentials. Error: ${error}`);
+      }
+    },
+    logout: () => {
+      set({ user: null });
+      blogService.setToken(null);
+      window.localStorage.removeItem("BlogAppUser");
+      useNotificationStore.getState().setNotification("success", "Successfully logged out.");
     }
   }
 }))
-
-
 
 export const useNotification = () => useNotificationStore(state => state.notification)
 export const useNotificationAction = () => useNotificationStore(state => state.setNotification)
