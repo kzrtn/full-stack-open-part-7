@@ -17,18 +17,25 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-import { useNotification, useBlog, useBlogActions, useLogin, useLoginActions } from "./store";
+import {
+  useNotification,
+  useBlog,
+  useBlogActions,
+  useLogin,
+  useLoginActions,
+} from "./store";
+import Users from "./components/Users";
 
 const App = () => {
-  const blogs = useBlog()
-  const setBlogs = useBlogActions()
+  const blogs = useBlog();
+  const setBlogs = useBlogActions();
   const toast = useNotification();
   const user = useLogin();
   const setUser = useLoginActions();
 
   useEffect(() => {
     setBlogs.init();
-  }, [setBlogs.init])
+  }, [setBlogs.init]);
 
   useEffect(() => {
     setUser.init();
@@ -66,36 +73,17 @@ const App = () => {
       {toast.message && <Notification toast={toast} />}
       <ErrorBoundary>
         <Routes>
-          <Route
-            path="/blog/:id"
-            element={
-              <Blog
-                blog={blog}
-              />
-            }
-          />
+          <Route path="/blog/:id" element={<Blog blog={blog} />} />
 
-          <Route
-            path="/"
-            element={
-              <BlogList />
-            }
-          />
+          <Route path="/" element={<BlogList />} />
 
-          <Route
-            path="/login"
-            element={<LoginForm />}
-          />
+          <Route path="/login" element={<LoginForm />} />
 
-          <Route
-            path="/create"
-            element={<BlogForm />}
-          />
+          <Route path="/create" element={<BlogForm />} />
 
-          <Route
-            path="*"
-            element={<h2>404 - Page not found</h2>}
-          />
+          <Route path="/users" element={<Users />} />
+
+          <Route path="*" element={<h2>404 - Page not found</h2>} />
         </Routes>
       </ErrorBoundary>
     </Container>

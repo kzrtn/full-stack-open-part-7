@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useBlog, useBlogActions } from "../store";
 
 const BlogList = () => {
-  const blogs = useBlog()
-  const setBlogs = useBlogActions()
+  const blogs = useBlog();
+  const setBlogs = useBlogActions();
 
   return (
     <div>

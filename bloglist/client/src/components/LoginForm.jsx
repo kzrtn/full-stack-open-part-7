@@ -4,7 +4,7 @@ import { TextField, Button } from "@mui/material";
 import { useLoginActions } from "../store";
 
 const LoginForm = () => {
-  const { login } = useLoginActions()
+  const { login } = useLoginActions();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();

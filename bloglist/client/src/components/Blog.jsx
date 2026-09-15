@@ -5,9 +5,9 @@ import { useBlogActions } from "../store";
 import { useLogin } from "../store";
 
 const Blog = (props) => {
-  const user = useLogin()
+  const user = useLogin();
   const { like, remove } = useBlogActions();
-  
+
   const [blog, setBlog] = useState(props.blog);
   const navigate = useNavigate();
 
