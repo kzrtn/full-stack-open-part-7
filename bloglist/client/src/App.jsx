@@ -20,6 +20,8 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 
+import { useNotification, setNotification } from "./store";
+
 /*
 const IS_ERROR = true
 const NOT_ERROR = false
@@ -27,10 +29,8 @@ const NOT_ERROR = false
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [toast, setToast] = useState({
-    type: null,
-    message: null,
-  });
+  const toast = useNotification();
+  const showNotification = setNotification();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -47,17 +47,6 @@ const App = () => {
       setUser(userObj);
     }
   }, []);
-
-  const showNotification = (type, message) => {
-    setToast({ type, message });
-
-    setTimeout(() => {
-      setToast({
-        type: null,
-        message: null,
-      });
-    }, 5000);
-  };
 
   const handleLogin = async (userObj) => {
     try {
