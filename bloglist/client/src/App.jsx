@@ -17,14 +17,14 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-import { useNotification, useBlog, useBlogActions, useUser, useUserActions } from "./store";
+import { useNotification, useBlog, useBlogActions, useLogin, useLoginActions } from "./store";
 
 const App = () => {
   const blogs = useBlog()
   const setBlogs = useBlogActions()
   const toast = useNotification();
-  const user = useUser();
-  const setUser = useUserActions();
+  const user = useLogin();
+  const setUser = useLoginActions();
 
   useEffect(() => {
     setBlogs.init();

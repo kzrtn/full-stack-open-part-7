@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { useBlogActions } from "../store";
-import { useUser } from "../store";
+import { useLogin } from "../store";
 
 const Blog = (props) => {
-  const user = useUser()
+  const user = useLogin()
   const { like, remove } = useBlogActions();
   
   const [blog, setBlog] = useState(props.blog);

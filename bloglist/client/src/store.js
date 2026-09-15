@@ -66,7 +66,7 @@ const useBlogStore = create(set => ({
 }))
 
 
-const useUserStore = create((set, get) => ({
+const useLoginStore = create((set, get) => ({
   user: null,
   actions: {
     init: () => {
@@ -101,5 +101,5 @@ export const useNotification = () => useNotificationStore(state => state.notific
 export const useNotificationAction = () => useNotificationStore(state => state.setNotification)
 export const useBlog = () => useBlogStore(state => state.blogs)
 export const useBlogActions = () => useBlogStore(state => state.actions)
-export const useUserActions = () => useUserStore(state => state.actions)
-export const useUser = () => useUserStore(state => state.user)
+export const useLoginActions = () => useLoginStore(state => state.actions)
+export const useLogin = () => useLoginStore(state => state.user)
