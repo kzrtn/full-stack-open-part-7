@@ -42,7 +42,7 @@ const App = () => {
 
   useEffect(() => {
     setUser.init();
-  }, [setUser.init()]);
+  }, [setUser.init]);
 
   const handleLogin = async (userObj) => {
     try {
