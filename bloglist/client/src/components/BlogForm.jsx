@@ -2,25 +2,35 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import { useBlogActions } from "../store";
+import { useField } from "../hooks";
 
 const BlogForm = () => {
   const { add } = useBlogActions();
+  const title = useField({
+    type: 'text',
+    placeholder: 'title'
+  })
+  const author = useField({
+    type: 'text',
+    placeholder: 'author'
+  })
+  const url = useField({
+    type: 'text',
+    placeholder: 'url'
+  })
 
-  const [blogFields, setBlogFields] = useState({
-    title: "",
-    author: "",
-    url: "",
-  });
   const navigate = useNavigate();
 
   const submitNewBlog = (e) => {
     e.preventDefault();
-    add(blogFields);
-    setBlogFields({
-      title: "",
-      author: "",
-      url: "",
+    add({
+      title: title.data.value,
+      author: author.data.value,
+      url: url.data.value
     });
+    title.reset()
+    author.reset()
+    url.reset()
     navigate("/");
   };
 
@@ -36,11 +46,7 @@ const BlogForm = () => {
         <div>
           <label>
             <TextField
-              value={blogFields.title}
-              onChange={({ target }) =>
-                setBlogFields({ ...blogFields, title: target.value })
-              }
-              placeholder="title"
+              { ...title.data }
               sx={style}
               size="small"
             />
@@ -49,11 +55,7 @@ const BlogForm = () => {
         <div>
           <label>
             <TextField
-              value={blogFields.author}
-              onChange={({ target }) =>
-                setBlogFields({ ...blogFields, author: target.value })
-              }
-              placeholder="author"
+              { ...author.data }
               sx={style}
               size="small"
             />
@@ -62,11 +64,7 @@ const BlogForm = () => {
         <div>
           <label>
             <TextField
-              value={blogFields.url}
-              onChange={({ target }) =>
-                setBlogFields({ ...blogFields, url: target.value })
-              }
-              placeholder="url"
+              { ...url.data }
               sx={style}
               size="small"
             />

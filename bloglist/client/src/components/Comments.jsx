@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { TextField, Button } from "@mui/material";
+import { useField } from '../hooks';
 
 import commentService from "../services/comments"
 
 const Comments = (props) => {
-  const [commentField, setCommentField] = useState('')
+  const comment = useField({
+    type: 'text',
+    placeholder: 'write a comment here...'
+  })
   const [comments, setComments] = useState(props.comments)
   const { blogId } = props
 
@@ -17,13 +21,13 @@ const Comments = (props) => {
   }
 
   const addComment = async () => {
-    const comment = {
+    const newComment = {
       blogId,
-      content: commentField,
+      content: comment.data.value,
     };
-    const result = await commentService.create(comment)
+    const result = await commentService.create(newComment)
     setComments(comments.concat(result))
-    setCommentField('')
+    comment.reset()
   };
 
   return (
@@ -31,9 +35,7 @@ const Comments = (props) => {
       <h3>comments</h3>
       <label>
         <TextField
-          value={commentField}
-          onChange={({target}) => setCommentField(target.value)}
-          placeholder="write a comment here..."
+          { ...comment.data }
           size="small"
         />
       </label>

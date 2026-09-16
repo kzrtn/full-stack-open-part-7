@@ -2,19 +2,29 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import { useLoginActions } from "../store";
+import { useField } from "../hooks"
 
 const LoginForm = () => {
   const { login } = useLoginActions();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const username = useField({
+    type: 'text',
+    placeholder: 'username'
+  })
+  const password = useField({
+    type: 'password',
+    placeholder: 'password'
+  })
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login({ username, password });
+    login({
+      username: username.data.value,
+      password: password.data.value
+    });
     navigate("/");
-    setUsername("");
-    setPassword("");
+    username.reset()
+    password.reset()
   };
 
   const style = {
@@ -29,9 +39,7 @@ const LoginForm = () => {
           <label>
             <TextField
               variant="standard"
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-              placeholder="username"
+              { ...username.data }
               sx={style}
             />
           </label>
@@ -39,10 +47,7 @@ const LoginForm = () => {
         <div>
           <TextField
             variant="standard"
-            value={password}
-            type="password"
-            onChange={({ target }) => setPassword(target.value)}
-            placeholder="password"
+            { ...password.data }
             sx={style}
           />
         </div>
