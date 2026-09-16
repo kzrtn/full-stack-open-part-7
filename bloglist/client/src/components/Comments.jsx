@@ -20,7 +20,8 @@ const Comments = (props) => {
     return null
   }
 
-  const addComment = async () => {
+  const addComment = async (e) => {
+    e.preventDefault()
     const newComment = {
       blogId,
       content: comment.data.value,
@@ -33,13 +34,15 @@ const Comments = (props) => {
   return (
     <>
       <h3>comments</h3>
-      <label>
-        <TextField
-          { ...comment.data }
-          size="small"
-        />
-      </label>
-      <Button variant="contained" sx={{ marginLeft: "15px" }} onClick={addComment}>Add comment</Button>
+      <form onSubmit={addComment}>
+        <label>
+          <TextField
+            { ...comment.data }
+            size="small"
+          />
+        </label>
+        <Button type="submit" variant="contained" sx={{ marginLeft: "15px" }}>Add comment</Button>
+      </form>
       {comments && comments.length > 0
         ? (
           <ul>
