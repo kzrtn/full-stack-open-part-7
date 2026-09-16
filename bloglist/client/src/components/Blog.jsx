@@ -27,7 +27,7 @@ const Blog = (props) => {
     return (
       <ul>
         {blog.comments.map(comment => (
-          <li key={crypto.randomUUID()}>{comment}</li>
+          <li key={crypto.randomUUID()}>{comment.content}</li>
         ))}
       </ul>
     )

@@ -1,9 +1,10 @@
 const blogsRouter = require("express").Router();
 const { userExtractor } = require("../utils/middleware.js");
 const Blog = require("../models/blog.js");
+const Comment = require("../models/comment.js")
 
 blogsRouter.get("/", async (req, res) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
+  const blogs = await Blog.find({}).populate("user", { username: true, name: true }).populate("comments", { content: true });
 
   res.json(blogs);
 });
@@ -12,7 +13,7 @@ blogsRouter.get("/:id", async (req, res) => {
   const blog = await Blog.findById(req.params.id).populate("user", {
     username: 1,
     name: 1,
-  });
+  }).populate("comments", { content: true })
 
   if (blog) {
     res.json(blog);
@@ -35,9 +36,9 @@ blogsRouter.post("/", userExtractor, async (req, res) => {
   });
   const result = await blog.save();
   const populatedResult = await Blog.findById(result._id).populate("user", {
-    username: 1,
-    name: 1,
-  });
+    username: true,
+    name: true,
+  }).populate("comments", { content: true });
   user.blogs = user.blogs.concat(result._id);
   await user.save();
 
@@ -53,14 +54,14 @@ blogsRouter.post("/:id/comments", async (req, res) => {
     }
 
     // I think I need to add an way to stop people from commenting if not valid user
-    const updatedObj = {
-      comments: [
-        ...blogToComment.comments,
-        req.body.comment
-      ]
-    }
-    const result = await Blog.findByIdAndUpdate(blogId, updatedObj, { returnDocument:'after' });
-    res.status(200).json(result); // successfully added comment
+    const comment = new Comment({
+      content: req.body.content,
+      blog: blogToComment._id
+    })
+    const savedComment = await comment.save();
+    blogToComment.comments = blogToComment.comments.concat(savedComment._id)
+    await blogToComment.save()
+    res.status(200).json(savedComment); // successfully added comment
   } catch (err) {
     console.log(err)
     res.status(400).end(); // blog id is malformatted

@@ -4,5 +4,5 @@ Content-Type: application/json
 Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjZhODJiNmI3ZDYyMzFlZmI4ZWZjY2UzNCIsImlhdCI6MTc4OTUyMTQyMX0.Cnwzw5mNiew58_wCJyXnY7NlerPN91rhI8rYahRj9WY'
 
 {
-  "comment": "my wife is the softest!"
+  "content": "true"
 }
