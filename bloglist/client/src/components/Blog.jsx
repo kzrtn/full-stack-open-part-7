@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { useBlogActions } from "../store";
 import { useLogin } from "../store";
+import Comments from "./Comments";
 
 const Blog = (props) => {
   const user = useLogin();
@@ -22,16 +23,6 @@ const Blog = (props) => {
     paddingLeft: 2,
     marginBottom: 5,
   };
-
-  const Comments = () => {
-    return (
-      <ul>
-        {blog.comments.map(comment => (
-          <li key={crypto.randomUUID()}>{comment.content}</li>
-        ))}
-      </ul>
-    )
-  }
 
   const deleteBlog = () => {
     const confirmDelete = window.confirm(
@@ -107,8 +98,7 @@ const Blog = (props) => {
           </Typography>
           {user && addLikeButton()}
           {user && removeButton()}
-          <h3>comments</h3>
-          {blog.comments.length > 0 ? Comments() : (<>no comments</>)}
+          <Comments comments={blog.comments} blogId={blog.id} />
         </CardContent>
       </Card>
     </div>
