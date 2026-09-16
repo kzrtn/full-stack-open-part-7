@@ -23,6 +23,16 @@ const Blog = (props) => {
     marginBottom: 5,
   };
 
+  const Comments = () => {
+    return (
+      <ul>
+        {blog.comments.map(comment => (
+          <li key={crypto.randomUUID()}>{comment}</li>
+        ))}
+      </ul>
+    )
+  }
+
   const deleteBlog = () => {
     const confirmDelete = window.confirm(
       `Remove blog ${blog.title} by ${blog.author}?`,
@@ -97,6 +107,8 @@ const Blog = (props) => {
           </Typography>
           {user && addLikeButton()}
           {user && removeButton()}
+          <h3>comments</h3>
+          {blog.comments.length > 0 ? Comments() : (<>no comments</>)}
         </CardContent>
       </Card>
     </div>
