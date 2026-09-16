@@ -29,6 +29,7 @@ app.use("/api/login", loginRouter);
 if ((process.env.NODE = "test")) {
   const testRouter = require("./controllers/tests.js");
   app.use("/api/test", testRouter);
+  app.use("/api/testing", testRouter);
 }
 app.use(middleware.errorHandler);
 
