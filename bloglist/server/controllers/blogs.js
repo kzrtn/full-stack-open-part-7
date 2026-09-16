@@ -44,6 +44,29 @@ blogsRouter.post("/", userExtractor, async (req, res) => {
   res.status(201).json(populatedResult);
 });
 
+blogsRouter.post("/:id/comments", async (req, res) => {
+  const blogId = req.params.id;
+  try {
+    const blogToComment = await Blog.findById(blogId);
+    if (!blogToComment) {
+      return res.status(404).end(); // blog doesn't exist
+    }
+
+    // I think I need to add an way to stop people from commenting if not valid user
+    const updatedObj = {
+      comments: [
+        ...blogToComment.comments,
+        req.body.comment
+      ]
+    }
+    const result = await Blog.findByIdAndUpdate(blogId, updatedObj, { returnDocument:'after' });
+    res.status(200).json(result); // successfully added comment
+  } catch (err) {
+    console.log(err)
+    res.status(400).end(); // blog id is malformatted
+  }
+});
+
 blogsRouter.delete("/:id", userExtractor, async (req, res) => {
   const user = req.user;
   try {
@@ -59,7 +82,7 @@ blogsRouter.delete("/:id", userExtractor, async (req, res) => {
           error: "user id that sent delete request is not owner of blog",
         });
     }
-    const result = await Blog.findByIdAndDelete(req.params.id);
+    await Blog.findByIdAndDelete(req.params.id);
     res.status(204).end(); // successful delete
   } catch (err) {
     res.status(400).end(); // blog id is malformatted
@@ -77,7 +100,7 @@ blogsRouter.put("/:id", userExtractor, async (req, res) => {
   try {
     const blogToUpdate = await Blog.findById(blogId);
     if (!blogToUpdate) {
-      res.status(404).json({ error: "blog id does not exist" });
+      return res.status(404).json({ error: "blog id does not exist" });
     }
 
     if (user.id !== blogToUpdate.user.toString()) {
@@ -87,7 +110,7 @@ blogsRouter.put("/:id", userExtractor, async (req, res) => {
           error: "user id that sent update request is not owner of blog",
         });
     }
-    const result = await Blog.findByIdAndUpdate(blogId, updatedObj);
+    const result = await Blog.findByIdAndUpdate(blogId, updatedObj, { returnDocument:'after' });
     res.status(200).json(result); // successful put
   } catch (err) {
     res.status(400).end(); // blog id is malformatted
