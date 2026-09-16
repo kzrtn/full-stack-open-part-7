@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useUsers, useUsersActions } from "../store";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,14 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const Users = () => {
-  const users = useUsers();
-  const { init } = useUsersActions();
-
-  useEffect(() => {
-    init();
-  }, [init]);
-
+const Users = ({users}) => {
   return (
     <div>
       <h2>Users</h2>
@@ -43,7 +34,7 @@ const Users = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>
-                  <Link to={`users/${user.id}`}>{user.name}</Link>
+                  <Link to={`${user.id}`}>{user.name}</Link>
                 </TableCell>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.blogs.length}</TableCell>

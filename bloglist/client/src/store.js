@@ -130,7 +130,7 @@ const useLoginStore = create((set) => ({
 const useUsersStore = create((set) => ({
   users: [],
   actions: {
-    init: async () => {
+    getAll: async () => {
       const users = await userService.getAll();
       set({ users });
     },
@@ -139,8 +139,10 @@ const useUsersStore = create((set) => ({
 
 export const useNotification = () =>
   useNotificationStore((state) => state.notification);
+
 export const useNotificationAction = () =>
   useNotificationStore((state) => state.setNotification);
+
 export const useBlog = () => useBlogStore((state) => state.blogs);
 export const useBlogActions = () => useBlogStore((state) => state.actions);
 export const useLoginActions = () => useLoginStore((state) => state.actions);
